@@ -25,6 +25,12 @@
 		options = [ "subvol=home" "compress=zstd" ];
 	};
 
+	fileSystems."/run/media/sukipai/ExFAT" =
+	{ device = "/dev/nvme0n1p1";
+		fsType = "exfat";
+		options = [ "uid=1000" "gid=100" ];
+	};
+
 	fileSystems."/nix" =
 	{ device = "/dev/nvme0n1p4";
 		fsType = "btrfs";

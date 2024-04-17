@@ -1,0 +1,3 @@
+[submodule "modules/sukipai/editor/vim-plug"]
+	path = modules/sukipai/editor/vim-plug
+	url = https://github.com/junegunn/vim-plug.git
