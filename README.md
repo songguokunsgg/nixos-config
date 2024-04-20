@@ -1,5 +1,22 @@
 # 家中常备使用说明
 
+## 关于升级
+
+如果不使用 flake 的话，直接
+
+```bash
+nixos-rebuild switch --upgrade
+```
+
+但我是个 SB，用了 flake 必须要
+
+```bash
+nix flake update /etc/nixos
+nixos-rebuild switch --flake /etc/nixos
+```
+
+已经添加了 alias 到 zshrc
+
 ## 切换 unstable 的方法
 
 1. 修改 flake.nix，pkgurl 的 23.11 改为 unstable
@@ -48,3 +65,40 @@ git clone --recurse-submodules https://github.com/junegunn/vim-plug.git
 只 clone 主仓库的话，vim-plug 文件夹为空
 
 也就是说，子仓库需要单独进行管理，在主仓库中以二进制形式存储（可能这也是nix读不到内容的原因，被当成二进制了）。
+
+## 关于虚拟化的说明
+
+属实是把我坑了，搞了好几天才解决，其实很简单。
+
+### 启用 opengl
+
+见 `modules/sys/default.nix` 文件，已经配置好。
+
+### win 虚拟机安装virtio驱动
+
+磁盘直接选成 virtio
+
+需要在安装系统的时候加载驱动
+
+不可以先安装系统再加载驱动！
+
+### win 虚拟机配置
+
+1. 显示协议 Spice：Listen Type： None；OpenGL：打勾
+2. 显卡 Virtio：打开 3D Accelerate
+
+## Fcitx5 输入法的配置
+
+不用添加任何环境变量，只需要在 `设置-虚拟键盘-Fcitx5` 选中然后重启，即可启用 Electron 应用的 `--enable-wayland-ime` 作用。
+
+## 字体说明
+
+主要定义在 `modules/packages/fonts.nix` 下面
+
+但是有些闭源字体无法通过包管理安装（如 Times New Roman，Hack Nerd Font,Arial），需要把字体文件放在 `~/.local/share/fonts/` 下，然后
+
+```bash
+fc-cache -fsv
+```
+
+就可以使用该字体了

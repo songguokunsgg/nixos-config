@@ -13,7 +13,8 @@
 	{
 		users = [ "sukipai" ];
 		commands = [
-		{ command = "ALL" ;
+		{ 
+			command = "ALL" ;
 			options= [ "NOPASSWD" ];
 		}
 		];

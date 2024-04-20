@@ -8,6 +8,10 @@
 		}];
 		packages = [
 			"com.tencent.WeChat"
+			"com.valvesoftware.Steam"
+			"com.baidu.NetDisk"
+			"org.ppsspp.PPSSPP"
+			{ appId = "com.jetbrains.IntelliJ-IDEA-Ultimate"; origin = "flathub";  }
 		];
 		overrides = {
 			global = {
@@ -21,6 +25,9 @@
 			};
 # 不支持 wayland 的应用
 			"com.tencent.WeChat".Context.sockets = ["x11"];	
+			"com.valvesoftware.Steam".Context.sockets = ["x11"];	
+			"com.baidu.NetDisk".Context.sockets = ["x11"];	
+			"com.jetbrains.IntelliJ-IDEA-Ultimate".Context.sockets = ["x11"];	
 		};
 	};
 }

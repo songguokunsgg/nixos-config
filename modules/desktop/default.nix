@@ -18,15 +18,8 @@
 
 # 图形界面设置
 	services = {
-		xserver = { 
-			enable = true;
-			desktopManager = { 
-				plasma5.enable = true;
-			};
-		};
-		displayManager = {
-			sddm.wayland.enable = true;
-			defaultSession = "plasmawayland";
-		};
+		xserver.enable = true;
+		desktopManager.plasma6.enable = true;
+		displayManager.sddm.wayland.enable = true;
 	};
 }

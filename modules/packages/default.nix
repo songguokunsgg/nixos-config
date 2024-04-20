@@ -1,8 +1,10 @@
 {config, pkgs, ... }:
 
 {
-# 导入 flatpak 包
 	imports = [
+# 导入字体设置
+		./fonts.nix
+# 导入 flatpak 包
 		./flatpak/default.nix
 	];
 
@@ -22,8 +24,7 @@
 			freerdp
 
 # 终端程序
-			neofetch
-			ranger
+			fastfetch
 			zip
 			xz
 			unzip
@@ -40,8 +41,14 @@
 			 "--gtk-version=4"
 			 ];
 			 })
-	qq
-		vscode-fhs
+	(qq.override {
+	 commandLineArgs = [
+	 "--enable-features=UseOzonePlatform"
+	 "--ozone-platform=wayland"
+	 "--enable-wayland-ime"
+	 ];
+	 })
+	vscode-fhs
 
 # 其他程序
 		seafile-client
@@ -52,20 +59,19 @@
 		linux-wifi-hotspot
 		libreoffice-fresh
 		zotero
-# 字体
-		wqy_zenhei
-		wqy_microhei
 
 # 编程相关程序, 只适合终端编程
 # 由于系统 path 缺失，图形程序并不能找到想要的库，就无法运行
+# 图形程序应该使用flake对每个项目单独配置
 		julia
-		conda
+		python3
 		R
-		nodejs_21
-		corepack_21
+		nodejs
+		corepack
 		rstudio
 		texliveFull
 		rustup
+		jdk
 		gcc
 		];
 }

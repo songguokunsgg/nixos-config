@@ -3,11 +3,14 @@
 {
 	services.openssh = {
 		enable = true;
+		ports = [ 22 ];
 # 可否使用密码登录
-		settings.PasswordAuthentication = false;
-		settings.KbdInteractiveAuthentication = false;
+		settings = {
+			PasswordAuthentication = false;
+			KbdInteractiveAuthentication = false;
 # 可否使用 root 登录
-		settings.PermitRootLogin = "no";
+			PermitRootLogin = "no";
+		};
 	};
 
 	users.users.sukipai.openssh.authorizedKeys.keys = [

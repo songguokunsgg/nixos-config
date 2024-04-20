@@ -1,26 +1,51 @@
 {config, pkgs, ... }:
 
+let
+google_translate_ip = "216.239.32.40";
+in
 {
 # 系统参数设置
 	boot.loader = {
-		systemd-boot.enable = true;
-		efi.canTouchEfiVariables = true;
+		efi = {
+			canTouchEfiVariables = true;
+			efiSysMountPoint = "/boot/efi"; # ← use the same mount point here.
+		};
+		grub = {
+			enable = true;
+			efiSupport = true;
+			device = "nodev";
+			useOSProber = false;
+		};
 	};
+
 	networking = {
 		hostName = "SUKIPAI";
 		networkmanager.enable = true;
+		extraHosts = ''
+			${google_translate_ip} translate.googleapis.com
+			${google_translate_ip} translate.google.cn
+			${google_translate_ip} translate-pa.googleapis.com
+			'';
 	};
 	hardware = {
 		bluetooth = {
 			enable = true;
 			powerOnBoot = true;
 		};
-		opengl.enable = true;
+		opengl = {
+			enable = true;
+			driSupport = true;
+			driSupport32Bit = true;
+			extraPackages = with pkgs; [
+				mesa.drivers
+			];
+		};
+	};
+	environment.sessionVariables = {
 	};
 	nix  = {
 		settings = {
 			experimental-features = [ "nix-command" "flakes" ];
-# substituters = ["https://mirrors.tuna.tsinghua.edu.cn/nix-channels/store"];
 		};
 # 自动垃圾回收
 		gc = {
@@ -61,5 +86,5 @@
 	};
 
 # 系统自动更新
-	system.autoUpgrade.enable = true;
+	system.autoUpgrade.enable = false;
 }

@@ -37,7 +37,7 @@
 		options = [ "subvol=nix" "noatime" "compress=zstd" ];
 	};
 
-	fileSystems."/boot" =
+	fileSystems."/boot/efi" =
 	{ device = "/dev/disk/by-uuid/3F1A-1F62";
 		fsType = "vfat";
 		options = [ "fmask=0022" "dmask=0022" ];
