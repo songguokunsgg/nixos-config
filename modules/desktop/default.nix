@@ -20,6 +20,57 @@
 	services = {
 		xserver.enable = true;
 		desktopManager.plasma6.enable = true;
-		displayManager.sddm.wayland.enable = true;
+		displayManager.sddm = {
+			wayland.enable = true;
+			theme.enable = true;
+		};
+	};
+
+
+# 图形应用程序设置
+	imports = [
+		./flatpak/default.nix
+	];
+
+	environment = {
+# electron 应用启用 wayland
+		sessionVariables.NIXOS_OZONE_WL = "1";
+
+		systemPackages = with pkgs; [
+# electron 程序
+			(chromium.override {
+			 commandLineArgs = [
+# "--enable-features=UseOzonePlatform"
+# "--ozone-platform=wayland"
+			 "--gtk-version=4"
+			 ];
+			 })
+		(qq.override {
+		 commandLineArgs = [
+		 "--enable-wayland-ime"
+		 ];
+		 })
+		(vscode.override {
+		 commandLineArgs = [
+		 "--enable-wayland-ime"
+		 ];
+		 })
+# KDE 程序
+		kdePackages.konsole
+			kdePackages.krdc
+			kdePackages.krfb
+			kdePackages.kcalc
+# 其他程序
+			obs-studio
+			wl-clipboard
+			seafile-client
+			inkscape
+			gimp
+			clash-verge
+			linux-wifi-hotspot
+			libreoffice-fresh
+			zotero
+			rstudio
+			];
 	};
 }

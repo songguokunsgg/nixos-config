@@ -1,38 +1,71 @@
-# 家中常备使用说明
+# 使用说明
 
-## 关于升级
+## 安装系统
+
+### 分区并创建配置文件
+
+根据官方教程进行，但分区使用 cfdisk 工具，更简单
+
+仓本库中的 hardware-configuration.nix 是不可复用的，必须替换为实际的分区目标
+
+由于本仓库使用 unstable，并且不使用国内源安装，所以必须想办法连接 github
+
+### 升级 channel
+
+```bash
+nix-channel --add https://channels.nixos.org/nixos-unstable nixos
+nix-channel --update
+```
+
+### 安装系统
+
+```bash
+nixos-install
+```
+
+如果出现异常，可以先注释掉 `./configuration.nix` 中的 desktop 图形界面
+
+命令行安装完成后，重启系统、取消注释 desktop，再 `update` 安装一次图形界面
+
+## 升级系统
 
 如果不使用 flake 的话，直接
 
 ```bash
-nixos-rebuild switch --upgrade
+sudo nixos-rebuild switch --upgrade
 ```
 
 但我是个 SB，用了 flake 必须要
 
 ```bash
-nix flake update /etc/nixos
-nixos-rebuild switch --flake /etc/nixos
+sudo nix flake update /etc/nixos
+sudo nixos-rebuild switch --flake /etc/nixos
 ```
 
-已经添加了 alias 到 zshrc
+已经添加了 alias 到 zshrc，直接 `udpate` 即可一键升级
 
-## 切换 unstable 的方法
+**所以我用 flake 是图个啥**
+
+## 软件源相关
+
+### 配置过程中切换到 unstable 采用的方案
 
 1. 修改 flake.nix，pkgurl 的 23.11 改为 unstable
-2. nix-channel --add https://channels.nixos.org/nixos-unstable nixos
-3. nix-channel --update
-4. 修改 home manager 版本：将 flake.nix 中的 release-23.11 类似的改为 master
-4. 修改 home.nix ：将 home.stateVersion 改为 "24.05"
-7. nixos-rebuild switch --upgrade
+2. `nix-channel --add https://channels.nixos.org/nixos-unstable nixos`
+3. `nix-channel --update`
+4. 修改 home manager 版本：将 flake.nix 中类似 release-23.11 的内容改为 master
+5. 修改 home.nix ：将 home.stateVersion 改为 "24.05"
+6. `update` 即可
 
-## 从 unstable 改回 stable
+### 切换回 stable
 
-把上面的反着走一遍即可
+如果出现软件不兼容再考虑切换，一般都用 unstable
 
 ## 代理使用方法
 
-安装 clash-verge 或者 clash-verge-rev
+安装 clash-verge 或者 clash-verge-rev（这个软件目前有些 UI 上的问题，建议 clash-verge）
+
+**现在好像不用如下这样操作了，直接使用 clash-verge 即可**
 
 由于权限问题，两者并不能直接使用，图形界面和clash内核需要分开启动。
 
@@ -48,7 +81,7 @@ sudo clash-meta -f config.yaml
 
 ## 子仓库 vim-plug
 
-本来是为了方便更新vim-plug 添加的，但是nix 访问不到这个子仓库的文件，软连接出来一层也不行，所以只能手动将更新后的plug.vim 复制到上一层使用。
+本来是为了方便更新 vim-plug 添加的，但是 nix 访问不到这个子仓库的文件，软连接出来一层也不行，所以只能手动将更新后的 plug.vim 复制到上一层使用。
 
 git clone 的时候要带着子仓库一起使用的话，需要用以下命令
 
@@ -66,7 +99,7 @@ git clone --recurse-submodules https://github.com/junegunn/vim-plug.git
 
 也就是说，子仓库需要单独进行管理，在主仓库中以二进制形式存储（可能这也是nix读不到内容的原因，被当成二进制了）。
 
-## 关于虚拟化的说明
+## 关于 KVM 虚拟化的说明
 
 属实是把我坑了，搞了好几天才解决，其实很简单。
 
@@ -74,13 +107,13 @@ git clone --recurse-submodules https://github.com/junegunn/vim-plug.git
 
 见 `modules/sys/default.nix` 文件，已经配置好。
 
-### win 虚拟机安装virtio驱动
+### win 虚拟机安装 virtio 驱动
 
 磁盘直接选成 virtio
 
-需要在安装系统的时候加载驱动
+需要在**安装系统**的时候加载驱动
 
-不可以先安装系统再加载驱动！
+**不可以**先安装系统再加载驱动！
 
 ### win 虚拟机配置
 

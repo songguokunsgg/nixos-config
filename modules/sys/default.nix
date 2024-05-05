@@ -4,7 +4,7 @@ let
 google_translate_ip = "216.239.32.40";
 in
 {
-# 系统参数设置
+# boot 设置
 	boot.loader = {
 		efi = {
 			canTouchEfiVariables = true;
@@ -17,7 +17,7 @@ in
 			useOSProber = false;
 		};
 	};
-
+# 网络设置
 	networking = {
 		hostName = "SUKIPAI";
 		networkmanager.enable = true;
@@ -27,6 +27,7 @@ in
 			${google_translate_ip} translate-pa.googleapis.com
 			'';
 	};
+# 硬件设置
 	hardware = {
 		bluetooth = {
 			enable = true;
@@ -41,9 +42,8 @@ in
 			];
 		};
 	};
-	environment.sessionVariables = {
-	};
 	nix  = {
+# 实验性功能启用
 		settings = {
 			experimental-features = [ "nix-command" "flakes" ];
 		};
@@ -63,15 +63,30 @@ in
 	};
 	time.timeZone = "Asia/Shanghai";
 
-# docker 和 KVM 设置
+# podman 和 KVM 设置
 	virtualisation  =  { 
-		docker = {
-			enable = true;
-			storageDriver = "btrfs";
-		};
 		libvirtd.enable = true;
-# waydroid.enable = true;
+		podman = {
+			enable = true;
+			dockerCompat = true;
+#defaultNetwork.settings.dns_enabled = true;
+		};
+
+		oci-containers = {
+			backend = "podman";
+			containers = {
+# open-webui = import ./containers/open-webui.nix;
+			};
+		};
 	};
+
+# ollama 设置
+# services.ollama.enable = true;
+# system.activationScripts = {
+#	script.text = ''
+#		install -d -m 755 /home/sukipai/open-webui/data -o root -g root
+#		'';
+#};
 
 # 声音设置
 	sound.enable = true;
