@@ -17,6 +17,7 @@
 			wget
 			lua
 			virtiofsd
+			pciutils
 
 # 终端程序
 			fastfetch

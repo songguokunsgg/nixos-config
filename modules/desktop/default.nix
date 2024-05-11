@@ -38,18 +38,11 @@
 
 		systemPackages = with pkgs; [
 # electron 程序
-			(chromium.override {
+			(qq.override {
 			 commandLineArgs = [
-# "--enable-features=UseOzonePlatform"
-# "--ozone-platform=wayland"
-			 "--gtk-version=4"
+			 "--enable-wayland-ime"
 			 ];
 			 })
-		(qq.override {
-		 commandLineArgs = [
-		 "--enable-wayland-ime"
-		 ];
-		 })
 		(vscode.override {
 		 commandLineArgs = [
 		 "--enable-wayland-ime"
@@ -57,10 +50,10 @@
 		 })
 # KDE 程序
 		kdePackages.konsole
-			kdePackages.krdc
-			kdePackages.krfb
 			kdePackages.kcalc
 # 其他程序
+			firefox
+			freerdp3
 			obs-studio
 			wl-clipboard
 			seafile-client

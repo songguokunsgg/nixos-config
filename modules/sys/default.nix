@@ -4,6 +4,12 @@ let
 google_translate_ip = "216.239.32.40";
 in
 {
+# 服务项设置
+	imports = [
+# 内网穿透服务
+		./auto-launch/SakuraFrp/default.nix
+	];
+
 # boot 设置
 	boot.loader = {
 		efi = {
@@ -27,6 +33,16 @@ in
 			${google_translate_ip} translate-pa.googleapis.com
 			'';
 	};
+	services.create_ap = {
+		enable = true;
+		settings = {
+			INTERNET_IFACE = "enp2s0";
+			WIFI_IFACE = "wlp3s0";
+			SSID = "SUKIPAI";
+			PASSPHRASE = "12345689";
+		};
+	};
+
 # 硬件设置
 	hardware = {
 		bluetooth = {
