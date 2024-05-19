@@ -135,3 +135,29 @@ fc-cache -fsv
 ```
 
 就可以使用该字体了
+
+## 网页管理页面 Cockpit 安装
+
+https://fictionbecomesfact.com/nixos-cockpit
+
+`packages/default.nix` 加入
+```nix
+environment.systemPackages = with pkgs; [
+     cockpit # cockpit
+  ];
+```
+
+`sys/default.nix` 加入
+
+```nix
+  # Cockpit
+  services.cockpit = {
+    enable = true;
+    port = 9090;
+    settings = {
+      WebService = {
+        AllowUnencrypted = true;
+      };
+    };
+  };
+```
