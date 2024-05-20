@@ -6,10 +6,10 @@
 		ports = [ 22 ];
 # 可否使用密码登录
 		settings = {
-			PasswordAuthentication = false;
-			KbdInteractiveAuthentication = false;
+			PasswordAuthentication = true;
+			KbdInteractiveAuthentication = true;
 # 可否使用 root 登录
-			PermitRootLogin = "no";
+			PermitRootLogin = "yes";
 		};
 	};
 

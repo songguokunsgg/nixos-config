@@ -5,11 +5,11 @@
 	home-manager = {
 		backupFileExtension = "backup";
 	};
+
 # 用户设置
 	users.users.sukipai= {
 		isNormalUser = true;
-		extraGroups = [ "wheel" "docker" "libvirtd" ];
-		shell = pkgs.zsh;
+		extraGroups = [ "wheel" "libvirtd" ];
 		linger = true;
 	};
 

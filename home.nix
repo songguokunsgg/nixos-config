@@ -25,10 +25,7 @@
 
 	imports =  [
 		./modules/users/sukipai/sys/default.nix
-			./modules/users/sukipai/packages/default.nix
-			./modules/users/sukipai/zsh/default.nix
 			./modules/users/sukipai/git/default.nix
-			./modules/users/sukipai/editor/default.nix
 	];
 
 # 以下请勿修改

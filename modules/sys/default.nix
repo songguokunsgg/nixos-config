@@ -1,8 +1,5 @@
 {config, pkgs, ... }:
 
-let
-google_translate_ip = "216.239.32.40";
-in
 {
 # 服务项设置
 	imports = [
@@ -27,20 +24,6 @@ in
 	networking = {
 		hostName = "SUKIPAI";
 		networkmanager.enable = true;
-		extraHosts = ''
-			${google_translate_ip} translate.googleapis.com
-			${google_translate_ip} translate.google.cn
-			${google_translate_ip} translate-pa.googleapis.com
-			'';
-	};
-	services.create_ap = {
-		enable = true;
-		settings = {
-			INTERNET_IFACE = "enp2s0";
-			WIFI_IFACE = "wlp3s0";
-			SSID = "SUKIPAI";
-			PASSPHRASE = "12345689";
-		};
 	};
 
 # 硬件设置
@@ -87,34 +70,17 @@ in
 			dockerCompat = true;
 #defaultNetwork.settings.dns_enabled = true;
 		};
-
-		oci-containers = {
-			backend = "podman";
-			containers = {
-# open-webui = import ./containers/open-webui.nix;
-			};
-		};
 	};
-
-# ollama 设置
-# services.ollama.enable = true;
-# system.activationScripts = {
-#	script.text = ''
-#		install -d -m 755 /home/sukipai/open-webui/data -o root -g root
-#		'';
-#};
-
-# 声音设置
-	sound.enable = true;
-	hardware.pulseaudio.enable = false;
-	security.rtkit.enable = true;
-	services.pipewire = {
-		enable = true;
-		alsa.enable = true;
-		alsa.support32Bit = true;
-		pulse.enable = true;
-		jack.enable = true;
+		  # Cockpit
+  services.cockpit = {
+	enable = true;
+	port = 9090;
+	settings = {
+	  WebService = {
+		AllowUnencrypted = true;
+	  };
 	};
+  };
 
 # 系统自动更新
 	system.autoUpgrade.enable = false;

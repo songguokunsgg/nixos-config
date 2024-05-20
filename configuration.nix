@@ -6,7 +6,6 @@
 		./hardware-configuration.nix
 		./modules/sys/default.nix
 		./modules/ssh/default.nix
-		./modules/desktop/default.nix
 		./modules/users/default.nix
 		./modules/editor/default.nix
 		./modules/packages/default.nix

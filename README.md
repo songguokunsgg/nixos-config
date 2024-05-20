@@ -1,5 +1,10 @@
 # 使用说明
 
+## 分支
+
+* main：包含 KDE 图形界面配置，可作个人桌面系统使用
+* server-cockpit：想法是作为一个 PVE 平替，适合需要稳定可控，功能不用太复杂的用户（暂未测试）
+
 ## 安装系统
 
 ### 分区并创建配置文件
@@ -54,7 +59,7 @@ sudo nixos-rebuild switch --flake /etc/nixos
 2. `nix-channel --add https://channels.nixos.org/nixos-unstable nixos`
 3. `nix-channel --update`
 4. 修改 home manager 版本：将 flake.nix 中类似 release-23.11 的内容改为 master
-5. 修改 home.nix ：将 home.stateVersion 改为 "24.05"
+5. 修改 home.nix：将 home.stateVersion 改为 "24.05"
 6. `update` 即可
 
 ### 切换回 stable
@@ -65,9 +70,7 @@ sudo nixos-rebuild switch --flake /etc/nixos
 
 安装 clash-verge 或者 clash-verge-rev（这个软件目前有些 UI 上的问题，建议 clash-verge）
 
-**现在好像不用如下这样操作了，直接使用 clash-verge 即可**
-
-由于权限问题，两者并不能直接使用，图形界面和clash内核需要分开启动。
+由于权限问题，两者并不能直接使用，图形界面和 clash 内核需要分开启动。
 
 1. 首先，需要从命令行启动配置文件
 
@@ -75,7 +78,7 @@ sudo nixos-rebuild switch --flake /etc/nixos
 sudo clash-meta -f config.yaml
 ```
 
-如果要启用TUN模式，则这里必须 sudo。
+如果要启用 TUN 模式，则这里必须 sudo。
 
 2. 启动软件，然后使用和一般软件无异
 
@@ -97,7 +100,7 @@ git clone --recurse-submodules https://github.com/junegunn/vim-plug.git
 
 只 clone 主仓库的话，vim-plug 文件夹为空
 
-也就是说，子仓库需要单独进行管理，在主仓库中以二进制形式存储（可能这也是nix读不到内容的原因，被当成二进制了）。
+也就是说，子仓库需要单独进行管理，在主仓库中以二进制形式存储（可能这也是 nix 读不到内容的原因，被当成二进制了）。
 
 ## 关于 KVM 虚拟化的说明
 
@@ -117,7 +120,7 @@ git clone --recurse-submodules https://github.com/junegunn/vim-plug.git
 
 ### win 虚拟机配置
 
-1. 显示协议 Spice：Listen Type： None；OpenGL：打勾
+1. 显示协议 Spice：Listen Type：None；OpenGL：打勾
 2. 显卡 Virtio：打开 3D Accelerate
 
 ## Fcitx5 输入法的配置
@@ -150,14 +153,16 @@ environment.systemPackages = with pkgs; [
 `sys/default.nix` 加入
 
 ```nix
-  # Cockpit
-  services.cockpit = {
-    enable = true;
-    port = 9090;
-    settings = {
-      WebService = {
-        AllowUnencrypted = true;
-      };
+# Cockpit
+services.cockpit = {
+  enable = true;
+  port = 9090;
+  settings = {
+    WebService = {
+      AllowUnencrypted = true;
     };
   };
+};
 ```
+
+已经集成在 server-cockpit 分支。
