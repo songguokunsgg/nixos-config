@@ -24,10 +24,9 @@
 	programs.home-manager.enable = true;
 
 	imports =  [
-		./modules/users/sukipai/sys/default.nix
-			./modules/users/sukipai/git/default.nix
+		./modules/users/sukipai/git/default.nix
 	];
 
-# 以下请勿修改
-	home.stateVersion = "24.05";
+# 与 configuration.nix 保持一致
+	home.stateVersion = "25.05";
 }

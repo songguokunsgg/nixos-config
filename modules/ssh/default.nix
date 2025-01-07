@@ -6,8 +6,11 @@
 		ports = [ 22 ];
 # 可否使用密码登录
 		settings = {
+			AllowUsers = [ "sukipai" ]; # Allows all users by default. Can be [ "user1" "user2" ]
 			PasswordAuthentication = true;
 			KbdInteractiveAuthentication = true;
+			UseDns = true;
+			X11Forwarding = true;
 # 可否使用 root 登录
 			PermitRootLogin = "yes";
 		};

@@ -7,10 +7,14 @@
 	};
 
 # 用户设置
-	users.users.sukipai= {
-		isNormalUser = true;
-		extraGroups = [ "wheel" "libvirtd" ];
-		linger = true;
+	users = {
+		defaultUserShell = pkgs.zsh;
+		users.sukipai= {
+			isNormalUser = true;
+			hashedPassword = "$y$j9T$7ll8rfVlu/1vD0aJUbeYB/$OyMBmFx.F9.kmefPTNfOCZuwB6UEIG1sNWCek9wUNeD";
+			extraGroups = [ "wheel" ];
+			linger = true;
+		};
 	};
 
 # 设置为 NOPASSWD

@@ -2,8 +2,7 @@
 
 ## 分支
 
-* main：包含 KDE 图形界面配置，可作个人桌面系统使用
-* server-cockpit：想法是作为一个 PVE 平替，适合需要稳定可控，功能不用太复杂的用户（暂未测试）
+* main：包含Base配置，可作个人 Server 使用
 
 ## 安装系统
 
@@ -43,11 +42,13 @@ sudo nixos-rebuild switch --upgrade
 但我是个 SB，用了 flake 必须要
 
 ```bash
-sudo nix flake update /etc/nixos
-sudo nixos-rebuild switch --flake /etc/nixos
+# 升级 flake
+sudo nix flake update --flake /etc/nixos
+# 根据 flake 安装或升级包，并产生一个新的世代
+sudo nixos-rebuild switch
 ```
 
-已经添加了 alias 到 zshrc，直接 `udpate` 即可一键升级
+已经添加了 alias 到 zshrc，直接 `update` 即可一键升级
 
 **所以我用 flake 是图个啥**
 
@@ -138,31 +139,3 @@ fc-cache -fsv
 ```
 
 就可以使用该字体了
-
-## 网页管理页面 Cockpit 安装
-
-https://fictionbecomesfact.com/nixos-cockpit
-
-`packages/default.nix` 加入
-```nix
-environment.systemPackages = with pkgs; [
-     cockpit # cockpit
-  ];
-```
-
-`sys/default.nix` 加入
-
-```nix
-# Cockpit
-services.cockpit = {
-  enable = true;
-  port = 9090;
-  settings = {
-    WebService = {
-      AllowUnencrypted = true;
-    };
-  };
-};
-```
-
-已经集成在 server-cockpit 分支。

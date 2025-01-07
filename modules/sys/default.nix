@@ -1,46 +1,32 @@
 {config, pkgs, ... }:
 
 {
-# 服务项设置
-	imports = [
-# 内网穿透服务
-		./auto-launch/SakuraFrp/default.nix
-	];
-
 # boot 设置
 	boot.loader = {
-		efi = {
-			canTouchEfiVariables = true;
-			efiSysMountPoint = "/boot/efi"; # ← use the same mount point here.
-		};
-		grub = {
-			enable = true;
-			efiSupport = true;
-			device = "nodev";
-			useOSProber = false;
-		};
+		systemd-boot.enable = true;
+		efi.canTouchEfiVariables = true;
 	};
+
 # 网络设置
 	networking = {
-		hostName = "SUKIPAI";
+		hostName = "nixos";
 		networkmanager.enable = true;
 	};
 
 # 硬件设置
 	hardware = {
 		bluetooth = {
-			enable = true;
-			powerOnBoot = true;
+			enable = false;
+			powerOnBoot = false;
 		};
-		opengl = {
+		graphics = {
 			enable = true;
-			driSupport = true;
-			driSupport32Bit = true;
 			extraPackages = with pkgs; [
 				mesa.drivers
 			];
 		};
 	};
+
 	nix  = {
 # 实验性功能启用
 		settings = {
@@ -54,34 +40,36 @@
 		};
 	};
 	nixpkgs.config.allowUnfree = true;
-	services.flatpak.enable = true;
 	programs = {
 		zsh.enable = true;
 		dconf.enable = true;
-		virt-manager.enable = true;
 	};
-	time.timeZone = "Asia/Shanghai";
 
 # podman 和 KVM 设置
 	virtualisation  =  { 
-		libvirtd.enable = true;
 		podman = {
 			enable = true;
 			dockerCompat = true;
-#defaultNetwork.settings.dns_enabled = true;
 		};
 	};
-		  # Cockpit
-  services.cockpit = {
-	enable = true;
-	port = 9090;
-	settings = {
-	  WebService = {
-		AllowUnencrypted = true;
-	  };
+	
+# time and fonts setting
+	time.timeZone = "Asia/Shanghai";
+	i18n.defaultLocale = "zh_CN.UTF-8";
+
+	fonts = {
+		packages = with pkgs; [
+			noto-fonts
+			noto-fonts-cjk-sans
+			noto-fonts-cjk-serif
+			source-code-pro
+			hack-font
+			jetbrains-mono
+			wqy_microhei
+			wqy_zenhei
+		];
 	};
-  };
 
 # 系统自动更新
-	system.autoUpgrade.enable = false;
+	system.autoUpgrade.enable = true;
 }

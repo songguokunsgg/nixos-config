@@ -11,5 +11,4 @@
 			customRC = lib.fileContents ./config.vim;
 		};
 	};
-
 }
